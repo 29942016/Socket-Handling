@@ -4,7 +4,7 @@ import socket
 import errno
 
 host = socket.gethostname()
-port = 12345 
+port = 12345
 passkey = ""
 command = ""
 

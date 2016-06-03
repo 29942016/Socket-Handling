@@ -19,9 +19,15 @@ def whoAmiI():
     (out, err) = proc.communicate()
     return out
 
+def services():
+    proc = subprocess.Popen(['service --status-all | grep +'], stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    return out
+
 def showhelp():
     commandList = "\nmdf\t| Returns a custom diskspace report." \
                   "\nwhoami\t| Returns the operator of the daemon." \
+                  "\nservices\t| Returns the currently enabled services. (Can conflict with SEL.)" \
                   "\nhelp\t| Returns this information." \
                   "\nq\t| Terminates the client.\n"
 
