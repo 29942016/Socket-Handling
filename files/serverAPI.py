@@ -3,11 +3,18 @@
 import os;
 import hashlib
 
-password = (hashlib.md5("admin").hexdigest())
+# ' Define server password here
+key = "admin"
+# ' Hash the key
+password = (hashlib.md5(key).hexdigest())
 
 def callMDF():
     os.system("df -h | awk '{print $5 \"\t\" $3 \"/\" $4 \"\t | \" $1}' | grep -v tmpfs")
 
+def whoAmiI():
+    os.system('whoami')
+
+# ' Determines if the supplied password matches server password
 def authenticate(message):
         data = str.split(message,'.')
         key = hashlib.md5(data[0]).hexdigest()
@@ -16,8 +23,8 @@ def authenticate(message):
         print "Key: " + key + " | Data: " + command
 
         if(key == password):
-            print 'Authentication sucessful'
+            print 'PASSWORD OK!'
             return command
         else:
-            print 'Wrong credientials'
+            print 'PASSWORD BAD!'
             return False

@@ -20,13 +20,17 @@ while True:
     result = authenticate(mesg)
     if(result != False):
         if(result == 'mdf'):
-            callMDF();
+            callMDF()
+            c.send('OK!')
+        elif(result == 'whoami'):
+            whoAmiI()
             c.send('OK!')
         elif(result == 'q'):
             print '\tKILL, terminating: ', addr
             c.close()
         else:
             print 'No match for: '+result
+            c.send('BAD!')
     else:
         c.send('1')  # bad password
 

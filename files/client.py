@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import socket
+import errno
 
 host = socket.gethostname()
 port = 12345
@@ -9,15 +10,20 @@ command = ""
 
 # 'Send a command
 def sendpacket(request):
-    s = socket.socket()
-    s.connect((host,port))
-    s.send(request)
-    result = s.recv(1024)
-    s.close()
-    return result
+    try:
+        s = socket.socket()
+        s.connect((host,port))
+        s.send(request)
+        result = s.recv(1024)
+        s.close()
+        return result
+    except socket.error as serr:
+        if(serr.errno == 111):  #111 - Host down
+            print 'Failed to connect, server may be unavailable.'
+            exit()
 
-
-# 'Password for send and recieving commands
+# 'Password for sending and recieving commands
+# 'request will be hash+.+command
 def getpasskey():
     global passkey
     passkey = raw_input("Authenticate: ")
@@ -31,12 +37,14 @@ getpasskey()
 # 'Pass packet to server
 while(command != 'q'):
     command = passkey + raw_input(">> ")
-    print "SENT: " + command
 
-    # 'Error handling the servers response
-    if(sendpacket(command) == '1'):
+    # 'handling the servers response
+    result = sendpacket(command)
+    if(result == '1'):
         print 'Bad passkey.'
         getpasskey()
+    else:
+        print result
 
 
 
