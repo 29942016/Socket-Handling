@@ -4,9 +4,11 @@ import socket
 import errno
 
 host = socket.gethostname()
-port = 12345
+port = 12345 
 passkey = ""
 command = ""
+
+print 'Connecting to ', host, ':', port
 
 # 'Send a command
 def sendpacket(request):
@@ -36,13 +38,16 @@ getpasskey()
 
 # 'Pass packet to server
 while(True):
-    command = passkey + raw_input(">> ")
+    command = passkey + raw_input("[CLIENT] >> ")
 
     # 'handling the servers response
     result = sendpacket(command)
     if(result == '1'):
         print 'Bad passkey.'
         getpasskey();
+    elif(result == '2'):
+        print 'Terminating.'
+        exit()
     else:
         print result
 
