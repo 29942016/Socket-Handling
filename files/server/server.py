@@ -29,10 +29,10 @@ while True:
         elif(result == 'q'):
             print '\tKILL, terminating: ', addr
             c.send('2')
-            c.close()
+        elif(result == 'help'):
+            c.send(showhelp())
         else:
-            print 'No match for: '+result
-            c.send('BAD!')
+            c.send('Command not found.')
     else:
         c.send('1')  # bad password
 
