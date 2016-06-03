@@ -30,8 +30,6 @@ def getpasskey():
     global passkey
     passkey = raw_input("Passkey: ")
     passkey += '.'
-    print passkey
-
 
 # '============== Main ================
 getpasskey()
