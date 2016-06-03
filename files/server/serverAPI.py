@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
-import os;
+import os
+import subprocess
 import hashlib
 
 # ' Define server password here
@@ -9,11 +10,17 @@ key = "admin"
 password = (hashlib.md5(key).hexdigest())
 
 def callMDF():
-    os.system("df -h | awk '{print $5 \"\t\" $3 \"/\" $4 \"\t | \" $1}' | grep -v tmpfs")
+    proc = subprocess.Popen(["df -h | awk '{print $5 \"\t\" $3 \"/\" $4 \"\t | \" $1}' | grep -v tmpfs"], stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    return out
 
 def whoAmiI():
-    os.system('whoami')
+    proc = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, shell=True)
+    (out, err) = proc.communicate()
+    return out
 
+def checkStatus():
+    return
 
 # ' Determines if the supplied password matches server password
 def authenticate(message):
@@ -21,7 +28,7 @@ def authenticate(message):
         key = hashlib.md5(data[0]).hexdigest()
         command = data[1]
 
-        print "Key: " + key + " | Data: " + command
+        print "Key: " + key + " | Command: " + command
 
         if(key == password):
             print 'PASSWORD OK!'

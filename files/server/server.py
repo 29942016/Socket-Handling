@@ -8,6 +8,7 @@ host = socket.gethostname()
 port = 12345
 
 s.bind((host, port))
+print 'Attempting to bind to host:', host, ' on port:', port
 print 'Session passkey: ' + password
 
 
@@ -17,16 +18,17 @@ while True:
     print '\n#=> New request from', addr
     mesg = c.recv(1024)
 
+    # 'Check if users passkey is correct
     result = authenticate(mesg)
     if(result != False):
+        # 'call the function they wanted.
         if(result == 'mdf'):
-            callMDF()
-            c.send('OK!')
+            c.send(callMDF())
         elif(result == 'whoami'):
-            whoAmiI()
-            c.send('OK!')
+            c.send(whoAmiI())
         elif(result == 'q'):
             print '\tKILL, terminating: ', addr
+            c.send('2')
             c.close()
         else:
             print 'No match for: '+result
