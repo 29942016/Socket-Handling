@@ -10,6 +10,7 @@ and enter password (default 'admin') for communication
 
 | Command       | Description   | Implemented  |
 | ------------- |:-------------:| ------------:|
+| services      | Displays currently enabled services |    YES       |
 | mdf           | Custom Diskfree display. |    YES       |
 | help          | Shows this menu.      |    YES       |
 | whoami        | Displays the daemon's owner      |    YES       |
