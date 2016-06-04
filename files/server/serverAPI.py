@@ -9,29 +9,36 @@ key = "admin"
 # ' Hash the key
 password = (hashlib.md5(key).hexdigest())
 
-def callMDF():
-    proc = subprocess.Popen(["df -h | awk '{print $5 \"\t\" $3 \"/\" $4 \"\t | \" $1}' | grep -v tmpfs"], stdout=subprocess.PIPE, shell=True)
+# ' Constructor method for API
+def syscall(command):
+    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
     return out
+
+# ' API Functions
+def callMDF():
+   return syscall("df -h | awk '{print $5 \"\t\" $3 \"/\" $4 \"\t | \" $1}' | grep -v tmpfs")
 
 def whoAmiI():
-    proc = subprocess.Popen(['whoami'], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    return out
+    return syscall('whoami')
 
 def services():
-    proc = subprocess.Popen(['service --status-all | grep +'], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-    return out
+    return syscall('service --status-all | grep +')
+
+def listusers():
+    return syscall('w')
 
 def showhelp():
-    commandList = "\nmdf\t| Returns a custom diskspace report." \
-                  "\nwhoami\t| Returns the operator of the daemon." \
+    commandList = "\nmdf\t\t| Returns a custom diskspace report." \
+                  "\nwhoami\t\t| Returns the operator of the daemon." \
+                  "\nusers\t\t| Returns active terminal sessions on the server." \
                   "\nservices\t| Returns the currently enabled services. (Can conflict with SEL.)" \
-                  "\nhelp\t| Returns this information." \
-                  "\nq\t| Terminates the client.\n"
+                  "\nhelp\t\t| Returns this information." \
+                  "\nq\t\t| Terminates the client.\n"
 
     return commandList
+
+
 
 # ' Determines if the supplied password matches server password
 def authenticate(message):

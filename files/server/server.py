@@ -28,6 +28,8 @@ while True:
             c.send(whoAmiI())
         elif(result == 'services'):
             c.send(services())
+        elif(result == 'users'):
+            c.send(listusers())
         elif(result == 'q'):
             print '\tKILL, terminating: ', addr
             c.send('2')
