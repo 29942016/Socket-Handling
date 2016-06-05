@@ -29,12 +29,15 @@ def listusers():
     return syscall('w')
 
 def showhelp():
-    commandList = "\nmdf\t\t| Returns a custom diskspace report." \
-                  "\nwhoami\t\t| Returns the operator of the daemon." \
-                  "\nusers\t\t| Returns active terminal sessions on the server." \
-                  "\nservices\t| Returns the currently enabled services. (Can conflict with SEL.)" \
-                  "\nhelp\t\t| Returns this information." \
-                  "\nq\t\t| Terminates the client.\n"
+    commandList = "\nMaintainence" \
+                  "\n portmod\t| modifies a port. e.g portmod <open/close> <port number>" \
+                  "\n mdf\t\t| Returns a custom diskspace report." \
+                  "\n whoami\t\t| Returns the owner of the server daemon." \
+                  "\n users\t\t| Returns active terminal sessions on the server." \
+                  "\n services\t| Returns the currently enabled services. (Can conflict with SEL.)" \
+                  "\n\nMisc" \
+                  "\n help\t\t| Returns this information." \
+                  "\n q\t\t| Terminates the client.\n"
 
     return commandList
 
@@ -42,6 +45,7 @@ def showhelp():
 
 # ' Determines if the supplied password matches server password
 def authenticate(message):
+        print 'DEBUG: ', message
         data = str.split(message,'.')
         key = hashlib.md5(data[0]).hexdigest()
         command = data[1]
