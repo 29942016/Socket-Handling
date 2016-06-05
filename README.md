@@ -1,8 +1,10 @@
 # Socket-Handling
 Test project for handling communcation between server/client using a passkey
 
-*start server with:* <br />
-./server.sh start
+*start daemon with:* <br />
+./server.sh start <br />
+*or the server with:* <br />
+./server/server.py
 
 *connect to server with:*<br />
 ./client/client.py
