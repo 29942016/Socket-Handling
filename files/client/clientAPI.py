@@ -24,5 +24,5 @@ def sendpacket(request):
 def getpasskey():
     global passkey
     passkey = raw_input("Passkey: ")
-    passkey += '.'
+    passkey += ' '
     return passkey
