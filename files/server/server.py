@@ -26,6 +26,8 @@ while True:
             c.send(callMDF())
         elif(result[0] == 'portprobe'):
             c.send(portprobe(result[1]))
+        elif(result[0] == 'portmod'):
+            c.send(portmod(result[1], result[2]))
         elif(result[0] == 'whoami'):
             c.send(whoAmiI())
         elif(result[0] == 'services'):
