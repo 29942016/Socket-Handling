@@ -1,53 +1,23 @@
 #!/usr/bin/python
+from clientAPI import *
 
-import socket
-import errno
+def main():
+    print 'Connecting to ', host + ':' + `port`
+    passkey = getpasskey()
 
-host = socket.gethostname()
-port = 12345
-passkey = ""
-command = ""
+    # 'Pass packet to server
+    while(True):
+        # 'handling the servers response
+        result = sendpacket(passkey + raw_input("[CLIENT] >> "))
 
-print 'Connecting to ', host, ':', port
-
-# 'Send a command
-def sendpacket(request):
-    try:
-        s = socket.socket()
-        s.connect((host,port))
-        s.send(request)
-        result = s.recv(1024)
-        s.close()
-        return result
-    except socket.error as serr:
-        if(serr.errno == 111):  # '111 - Host down
-            print 'Failed to connect, server may be unavailable.'
+        if(result == '1'):  # 'Using wrong passkey
+            print 'Bad passkey.'
+            getpasskey();
+        elif(result == '2'):  # 'User terminates connection
+            print 'Terminating.'
             exit()
-
-# 'Password for sending and recieving commands
-# 'request will be hash+.+command
-def getpasskey():
-    global passkey
-    passkey = raw_input("Passkey: ")
-    passkey += '.'
-
-# '============== Main ================
-getpasskey()
-
-# 'Pass packet to server
-while(True):
-    command = passkey + raw_input("[CLIENT] >> ")
-
-    # 'handling the servers response
-    result = sendpacket(command)
-    if(result == '1'):
-        print 'Bad passkey.'
-        getpasskey();
-    elif(result == '2'):
-        print 'Terminating.'
-        exit()
-    else:
-        print result
+        else:
+            print result
 
 
-
+main()
