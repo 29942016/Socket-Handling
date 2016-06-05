@@ -5,12 +5,12 @@ import subprocess
 import hashlib
 import socket
 
-# ' Define server password here
+# ' Define server password here.
 key = "admin"
-# ' Hash the key
+# ' Hash the key for comparison with the client.
 password = (hashlib.md5(key).hexdigest())
 
-# ' Constructor method for API
+# ' Constructor method for API.
 def syscall(command):
     proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
     (out, err) = proc.communicate()
@@ -23,9 +23,9 @@ def syscall(command):
 
 # ' API Functions
 
-# Checks if port is open
+# Checks if port is open.
 def portprobe(pNum):
-    # make sure port is a int
+    # make sure port is a int.
     if(validatePort(pNum)):
         pNum = int(pNum)
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -38,7 +38,7 @@ def portprobe(pNum):
     else:
         return "Invalid port."
 
-# modifies port status
+# modifies port status.
 def portmod(pNum, status):
     if(uid() == 0):
         if(validatePort(pNum)):
@@ -52,7 +52,7 @@ def portmod(pNum, status):
             else:
                 return "Invalid syntax, specify accept or deny"
 
-            # Attempt to modify iptables
+            # Attempt to modify iptables.
             val = "iptables -" + `status` + " INPUT -p tcp --dport " + `pNum` + " -j ACCEPT"
             return syscall(val)
         else:
