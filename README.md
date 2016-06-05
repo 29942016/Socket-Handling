@@ -10,7 +10,7 @@ and enter password (default 'admin') for communication
 
 | Command       | Description   | Implemented  |
 | ------------- |:-------------:| ------------:|
-| portprobe     | Checks if a port is open on the server. e.g portprobe <portnumber> |    YES       |
+| portprobe     | Checks if a port is open on the server. e.g portprobe \<portnumber\> |    YES       |
 | portmod       | Modifies a port to accept or deny incoming traffic via iptables |    NO       |
 | services      | Displays currently enabled services |    YES       |
 | mdf           | Custom Diskfree display. |    YES       |
