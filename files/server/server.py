@@ -22,18 +22,20 @@ while True:
     result = authenticate(mesg)
     if(result != False):
         # 'call the function they wanted.
-        if(result == 'mdf'):
+        if(result[0] == 'mdf'):
             c.send(callMDF())
-        elif(result == 'whoami'):
+        elif(result[0] == 'portprobe'):
+            c.send(portprobe(result[1]))
+        elif(result[0] == 'whoami'):
             c.send(whoAmiI())
-        elif(result == 'services'):
+        elif(result[0] == 'services'):
             c.send(services())
-        elif(result == 'users'):
+        elif(result[0] == 'users'):
             c.send(listusers())
-        elif(result == 'q'):
+        elif(result[0] == 'q'):
             print '\tKILL, terminating: ', addr
             c.send('2')
-        elif(result == 'help'):
+        elif(result[0] == 'help'):
             c.send(showhelp())
         else:
             c.send('Command not found.')
