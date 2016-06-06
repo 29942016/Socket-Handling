@@ -11,7 +11,6 @@ s.bind((host, port))
 print 'Attempting to bind to host:', host, ' on port:', port
 print 'Session passkey: ' + password
 
-
 while True:
     s.listen(5)
     c, addr = s.accept()
@@ -24,6 +23,8 @@ while True:
         # 'call the function they wanted.
         if(result[0] == 'mdf'):
             c.send(callMDF())
+        elif(result[0] == 'nas'):
+            c.send(nasControl(result[1]))
         elif(result[0] == 'portprobe'):
             c.send(portprobe(result[1]))
         elif(result[0] == 'portmod'):

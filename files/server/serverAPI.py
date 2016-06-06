@@ -23,6 +23,26 @@ def syscall(command):
 
 # ' API Functions
 
+# NAS control
+def nasControl(status):
+    #Make sure hubcontrol is installed: https://github.com/codazoda/hub-ctrl.c
+    if(hubCtrlCheckInstalled()):
+        if(status == "on"):
+            return "Switching on..."
+        elif(status == "off"):
+            return "Switching off"
+        else:
+            return "Invalid option: " + `status`
+    else:
+        return "Please install hub-ctrl at https://github.com/codazoda/hub-ctrl.c"
+
+
+
+
+# Run a rsync backup
+def backup(src, dest):
+    return syscall("nohup rsync -av " + `src` + " " + `dest` + " --exclude={/mnt,/dev,/sys,/proc} >> /tmp/output.txt &")
+
 # Checks if port is open
 def portprobe(pNum):
     # make sure port is a int
@@ -50,11 +70,11 @@ def portmod(pNum, status):
             elif(status == 'deny' or status == 'd' or status == 'deny' or status == 'delete'):
                 status = 'D'
             else:
-                return "Invalid syntax, specify accept or deny"
+                return "Invalid syntax, specify (a)ccept or (d)eny"
 
             # Attempt to modify iptables
             val = "iptables -" + `status` + " INPUT -p tcp --dport " + `pNum` + " -j ACCEPT"
-            return syscall(val)
+            return "Altered port " + `pNum` + "\n" + syscall(val)
         else:
             return "Invalid port."
     else:
@@ -71,9 +91,9 @@ def whoAmiI():
 def uid():
     return int(syscall('id -u'))
 
-# List of servers currently enabled
+# List of services
 def services():
-    return syscall('service --status-all | grep +')
+    return syscall('service --status-all')
 
 # Active terminals
 def listusers():
@@ -83,6 +103,7 @@ def listusers():
 def showhelp():
     commandList = "\nMaintainence" \
                   "\n portprobe\t| check if a port is open. e.g portprobe <port number>" \
+                  "\n portmod\t| Open or close a port. e.g portmod <port number> <add/delete>" \
                   "\n mdf\t\t| Returns a custom diskspace report." \
                   "\n whoami\t\t| Returns the owner of the server daemon." \
                   "\n users\t\t| Returns active terminal sessions on the server." \
@@ -96,7 +117,6 @@ def showhelp():
 # ' Determines if the supplied password matches server password
 # ' If correct, returns command["command", "arguement"]
 def authenticate(message):
-        print 'DEBUG: ', message
         data = str.split(message,' ')
         key = hashlib.md5(data[0]).hexdigest()
 
@@ -131,4 +151,11 @@ def validatePort(pNum):
     else:
         return False
 
+# Check if we have a binary for hub-controller
+def hubCtrlCheckInstalled():
+    val = syscall("whereis hub-ctrl | cut -d':' -f2")
 
+    if len(val) <= 1:
+        return False
+    else:
+        return True
