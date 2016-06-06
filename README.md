@@ -12,6 +12,7 @@ and enter password (default 'admin') for communication
 
 | Command       | Description   | Implemented  | Note  |
 | ------------- |:-------------:|:------------:|:------------|
+| usb     | Modify power to a usb controller. e.g usb \<on/off\> \<hub\> \<port\> |    YES       | doesn't return error if hub/port doesnt exist |
 | portprobe     | Checks if a port is open on the server. e.g portprobe \<portnumber\> |    YES       |
 | portmod       | Modifies a port to accept or deny incoming traffic via iptables |   YES       | Doesnt return output if stderr despite syscall returning either (out,err)  |
 | services      | Displays currently enabled services |    YES       |
