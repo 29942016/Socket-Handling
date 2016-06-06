@@ -3,7 +3,7 @@ Test project for handling communcation between server/client using a passkey
 
 *start daemon with:* <br />
 ./server.sh start <br />
-*or the server with:* <br />
+*or the server in the current tty with:* <br />
 ./server/server.py
 
 *connect to server with:*<br />
