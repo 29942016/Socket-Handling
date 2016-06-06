@@ -23,18 +23,22 @@ def syscall(command):
 
 # ' API Functions
 
-# NAS control
-def nasControl(status):
+# usb device controller
+def usbController(status, hub, port):
     #Make sure hubcontrol is installed: https://github.com/codazoda/hub-ctrl.c
-    if(hubCtrlCheckInstalled()):
+    preCheck = hubCtrlCheck(hub,port)
+
+    if(preCheck != True):
         if(status == "on"):
-            return "Switching on..."
+            print syscall("hub-ctrl -h " + hub + " -P " + port + " -p 1")
+            return "Enabled."
         elif(status == "off"):
-            return "Switching off"
+            print syscall("hub-ctrl -h " + hub + " -P " + port + " -p 0")
+            return "Disabled."
         else:
             return "Invalid option: " + `status`
     else:
-        return "Please install hub-ctrl at https://github.com/codazoda/hub-ctrl.c"
+        return preCheck
 
 
 
@@ -104,6 +108,7 @@ def listusers():
 # Show help
 def showhelp():
     commandList = "\nMaintainence" \
+                  "\n usb\t\t| Modify power to a usb controller. e.g usb <on/off> <hub> <port>" \
                   "\n portprobe\t| check if a port is open. e.g portprobe <port number>" \
                   "\n portmod\t| Open or close a port. e.g portmod <port number> <add/delete>" \
                   "\n mdf\t\t| Returns a custom diskspace report." \
@@ -153,11 +158,14 @@ def validatePort(pNum):
     else:
         return False
 
-# Check if we have a binary for hub-controller
-def hubCtrlCheckInstalled():
+# Prerequisite check before running hubctrl command
+def hubCtrlCheck(hub, port):
+    # Check we have access to hub-ctrl binary.
     val = syscall("whereis hub-ctrl | cut -d':' -f2")
-
-    if len(val) <= 1:
-        return False
+    if(len(val) <= 1):
+        return "Cannot find hub-ctrl binary."
+    # Check the passed hub/port is valid
+    elif(type(hub) != int or type(port) != int):
+        return "Passed hub/port invalid type."
     else:
         return True
