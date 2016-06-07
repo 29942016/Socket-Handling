@@ -147,6 +147,11 @@ def authenticate(message):
             print 'PASSWORD BAD!'
             return False
 
+# Check if the user gave the required amount of paramters for the command.
+def validParams(required, specificied):
+        return "\tInvalid amount of paramaters specified, requires: " + `required` + ", given: " + `specificied` + "."
+
+# Check if the port is valid
 def validatePort(pNum):
     try:
         pNum = int(pNum)

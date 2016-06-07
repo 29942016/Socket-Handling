@@ -23,23 +23,39 @@ while True:
         # 'call the function they wanted.
         if(result[0] == 'mdf'):
             c.send(callMDF())
+
         elif(result[0] == 'usb'):
-            c.send(usbController(result[1], result[2], result[3]))
+            valid = validParams(3, len(result)-1)
+            if(valid):
+                c.send(usbController(result[1], result[2], result[3]))
+            else:
+                c.send(valid)
+
         elif(result[0] == 'portprobe'):
             c.send(portprobe(result[1]))
+
         elif(result[0] == 'portmod'):
-            c.send(portmod(result[1], result[2]))
+            if(len(result) == 3):
+                c.send(portmod(result[1], result[2]))
+            else:
+                c.send(validParams(2, len(result)-1))
+
         elif(result[0] == 'whoami'):
             c.send(whoAmiI())
+
         elif(result[0] == 'services'):
             c.send(services())
+
         elif(result[0] == 'users'):
             c.send(listusers())
+
         elif(result[0] == 'q'):
             print '\tKILL, terminating: ', addr
             c.send('2')
+
         elif(result[0] == 'help'):
             c.send(showhelp())
+
         else:
             c.send('Command not found.')
     else:
