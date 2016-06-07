@@ -1,25 +1,13 @@
-#!/usr/bin/python
-
-import os
-import subprocess
 import hashlib
 import socket
+
+from subproc import syscall
+from errorHandling import *
 
 # ' Define server password here.
 key = "admin"
 # ' Hash the key for comparison with the client.
 password = (hashlib.md5(key).hexdigest())
-
-# ' Constructor method for API.
-def syscall(command):
-    proc = subprocess.Popen([command], stdout=subprocess.PIPE, shell=True)
-    (out, err) = proc.communicate()
-
-    # Handle if we got an stderr or stdout, return the correct one.
-    if err is None:
-        return out
-    else:
-        return err
 
 # ' API Functions
 
@@ -40,14 +28,9 @@ def usbController(status, hub, port):
     else:
         return preCheck
 
-
-
-
 # Run a rsync backup
 def backup(src, dest):
     return syscall("nohup rsync -av " + `src` + " " + `dest` + " --exclude={/mnt,/dev,/sys,/proc} >> /tmp/output.txt &")
-
-# Checks if port is open
 
 # Checks if port is open.
 def portprobe(pNum):
@@ -147,30 +130,4 @@ def authenticate(message):
             print 'PASSWORD BAD!'
             return False
 
-# Check if the user gave the required amount of paramters for the command.
-def validParams(required, specificied):
-        return "\tInvalid amount of paramaters specified, requires: " + `required` + ", given: " + `specificied` + "."
 
-# Check if the port is valid
-def validatePort(pNum):
-    try:
-        pNum = int(pNum)
-    except ValueError as e:
-        return False
-    # make sure its in common port range
-    if (pNum <= 65535 and pNum > 0):
-        return True
-    else:
-        return False
-
-# Prerequisite check before running hubctrl command
-def hubCtrlCheck(hub, port):
-    # Check we have access to hub-ctrl binary.
-    val = syscall("whereis hub-ctrl | cut -d':' -f2")
-    if(len(val) <= 1):
-        return "Cannot find hub-ctrl binary."
-    # Check the passed hub/port is valid
-    elif(type(hub) != int or type(port) != int):
-        return "Passed hub/port invalid type."
-    else:
-        return True

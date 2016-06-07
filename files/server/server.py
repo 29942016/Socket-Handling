@@ -1,6 +1,4 @@
 #!/usr/bin/python
-import sys
-import socket
 from serverAPI import *
 
 s = socket.socket()
@@ -25,11 +23,10 @@ while True:
             c.send(callMDF())
 
         elif(result[0] == 'usb'):
-            valid = validParams(3, len(result)-1)
-            if(valid):
+            if (len(result) == 4):
                 c.send(usbController(result[1], result[2], result[3]))
             else:
-                c.send(valid)
+                c.send(invalidparams(3, len(result)-1))
 
         elif(result[0] == 'portprobe'):
             c.send(portprobe(result[1]))
@@ -38,7 +35,7 @@ while True:
             if(len(result) == 3):
                 c.send(portmod(result[1], result[2]))
             else:
-                c.send(validParams(2, len(result)-1))
+                c.send(invalidparams(2, len(result)-1))
 
         elif(result[0] == 'whoami'):
             c.send(whoAmiI())
