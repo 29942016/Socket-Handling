@@ -10,6 +10,11 @@ key = "admin"
 password = (hashlib.md5(key).hexdigest())
 
 # ' API Functions
+def init(host, port):
+    print "\nStarting server:\t" + `host` + ":" + `port`
+    print "Passkey:\t\t", key
+    print "Hashed Passkey:\t\t", password
+    print "Awaiting connections..."
 
 # usb device controller
 def usbController(status, hub, port):
@@ -29,8 +34,8 @@ def usbController(status, hub, port):
         return preCheck
 
 # Run a rsync backup
-def backup(src, dest):
-    return syscall("nohup rsync -av " + `src` + " " + `dest` + " --exclude={/mnt,/dev,/sys,/proc} >> /tmp/output.txt &")
+#def backup(src, dest):
+#    return syscall("nohup rsync -av " + `src` + " " + `dest` + " --exclude={/mnt,/dev,/sys,/proc} >> /tmp/output.txt &")
 
 # Checks if port is open.
 def portprobe(pNum):
@@ -121,13 +126,13 @@ def authenticate(message):
         else:
             command.append("")
 
-        print "Key: " + key + " | Command: " + command[0] + " arg:" + command[1]
+        print "Key: " + key + "(" + data[0] + ")\nCommand: " + command[0] + " arg:" + command[1]
 
         if(key == password):
-            print 'PASSWORD OK!'
+            print 'OK!'
             return command
         else:
-            print 'PASSWORD BAD!'
+            print 'BAD!'
             return False
 
 

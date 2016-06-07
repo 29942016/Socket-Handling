@@ -2,12 +2,13 @@
 from serverAPI import *
 
 s = socket.socket()
+
 host = socket.gethostname()
 port = 12345
 
 s.bind((host, port))
-print 'Attempting to bind to host:', host, ' on port:', port
-print 'Session passkey: ' + password
+
+init(host,port)
 
 while True:
     s.listen(5)
