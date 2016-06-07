@@ -12,7 +12,7 @@ def main():
 
         if(result == '1'):  # 'Using wrong passkey
             print 'Bad passkey.'
-            getpasskey();
+            passkey = getpasskey();
         elif(result == '2'):  # 'User terminates connection
             print 'Terminating.'
             exit()
