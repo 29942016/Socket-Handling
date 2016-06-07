@@ -20,3 +20,6 @@ and enter password (default 'admin') for communication
 | help          | Shows this menu.      |    YES       |
 | whoami        | Displays the daemon's owner      |    YES       |
 | q             | Terminates this client      |    YES       |
+
+<b>*USB hub testing overview*</b>
+![alt tag](http://i.imgur.com/7H6E4au.png)
